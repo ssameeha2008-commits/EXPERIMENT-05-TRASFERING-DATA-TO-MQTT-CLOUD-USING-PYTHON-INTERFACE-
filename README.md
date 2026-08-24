@@ -1,7 +1,7 @@
-### NAME:
-### ROLL NO :
-### DEPARTMENT 
-### DATE
+### NAME:SAMEEHA S
+### ROLL NO :212225230243
+### DEPARTMENT :AIDS
+### DATE :24/08/2026
 
 
 
@@ -139,14 +139,100 @@ Run the Python script.
 Check if the message appears in the HiveMQ Web Client.
 ## PROGRAM
 [
+import time
+import paho.mqtt.client as mqtt
+
+broker = "f11124e34585481a9d15e9c9384521a6.s1.eu.hivemq.cloud"
+port = 8883
+topic = "iot/demo/sensor"
+
+username = "hivemq.webclient.1786079428649"
+password = "LggVkqttlSmluxpBhPhuFPA25dsx@d54"
+
+client = mqtt.Client(
+    client_id="python-publisher-001",
+    callback_api_version=mqtt.CallbackAPIVersion.VERSION2
+)
+
+client.username_pw_set(username, password)
+client.tls_set()
 
 
+def on_connect(client, userdata, flags, reason_code, properties):
+    print("Connected to broker, reasonCode:", reason_code)
 
 
+def on_publish(client, userdata, mid, reason_code, properties):
+    print("on_publish called, mid:", mid)
+
+
+def on_disconnect(client, userdata, disconnect_flags, reason_code, properties):
+    print("Disconnected, reasonCode:", reason_code)
+
+
+client.on_connect = on_connect
+client.on_publish = on_publish
+client.on_disconnect = on_disconnect
+
+client.connect(broker, port, keepalive=60)
+
+client.loop_start()
+
+message = "SAMEEHA - 212225230243"
+
+info = client.publish(
+    topic,
+    payload=message,
+    qos=1,
+    retain=True
+)
+
+info.wait_for_publish()
+
+time.sleep(0.2)
+
+client.loop_stop()
+client.disconnect()
+
+print(f"Message '{message}' published to topic '{topic}' (qos=1 retain=True)")
 
 ]
 
 ### OUTPUT SCREENSHOTS
+
+<img width="1320" height="743" alt="image" src="https://github.com/user-attachments/assets/618dbc9d-ca78-459a-93e6-031c4773a38d" />
+<img width="1340" height="688" alt="image" src="https://github.com/user-attachments/assets/a9c3b0d4-de23-4cd1-b26c-0d73b82757c7" />
+### 5B- DISPLAYING RANDOMLY GENERATED TEMPERATURE AND HUMIDITY :
+### PROGRAM:
+```
+import paho.mqtt.client as mqtt
+import time
+import random
+import ssl
+broker = "f11124e34585481a9d15e9c9384521a6.s1.eu.hivemq.cloud"
+port = 8883
+topic = "iot/demo/sensor"
+username = "hivemq.webclient.1786079428649"
+password = "LggVkqttlSmluxpBhPhuFPA25dsx@d54"
+client = mqtt.Client(
+    client_id="publisher",
+    callback_api_version=mqtt.CallbackAPIVersion.VERSION2
+)
+client.username_pw_set(username, password)
+client.tls_set(tls_version=ssl.PROTOCOL_TLS)
+client.connect(broker, port)
+while True:
+    temperature = round(random.uniform(20.0, 30.0), 2)
+    humidity = round(random.uniform(30.0, 70.0), 2)
+    payload = f"Temperature: {temperature:.2f} C, Humidity: {humidity:.2f}%"
+    client.publish(topic, payload)
+    print(f"Published: {payload} -> {topic}")
+    time.sleep(5)
+```
+### OUTPUT:
+<img width="1600" height="891" alt="image" src="https://github.com/user-attachments/assets/91f07b10-3c0b-4e30-a7c2-b56cbdf633a8" />
+<img width="1600" height="829" alt="image" src="https://github.com/user-attachments/assets/b3e77319-5a94-43cd-86ea-15ee4b81295d" />
+
 
 
 
