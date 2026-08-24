@@ -202,7 +202,9 @@ print(f"Message '{message}' published to topic '{topic}' (qos=1 retain=True)")
 
 <img width="1320" height="743" alt="image" src="https://github.com/user-attachments/assets/618dbc9d-ca78-459a-93e6-031c4773a38d" />
 <img width="1340" height="688" alt="image" src="https://github.com/user-attachments/assets/a9c3b0d4-de23-4cd1-b26c-0d73b82757c7" />
-### 5B- DISPLAYING RANDOMLY GENERATED TEMPERATURE AND HUMIDITY :
+
+#### 5B- DISPLAYING RANDOMLY GENERATED TEMPERATURE AND HUMIDITY :
+
 ### PROGRAM:
 ```
 import paho.mqtt.client as mqtt
